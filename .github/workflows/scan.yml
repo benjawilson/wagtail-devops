@@ -1,6 +1,6 @@
 name: Code Quality and Security Scans
 
-on: push:
+on: push
 
 jobs:
   linter:
