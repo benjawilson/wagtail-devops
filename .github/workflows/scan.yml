@@ -1,0 +1,12 @@
+name: Code Quality and Security Scans
+
+on: push:
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Pylint scan
+      uses: cclauss/GitHub-Action-for-pylint@0.7.0
+      run: pylint **/*.py
