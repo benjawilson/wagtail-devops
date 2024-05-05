@@ -1,11 +1,14 @@
 name: Build Docker image and deploy to Digital Ocean 
 
 on:
-  workflow_run:
-    workflows: ["scan"]
-    branches: [main]
-    types: 
-      - completed
+  push:
+    branches:
+      - main
+    paths:
+      - 'config/**'
+      - 'server.py'
+      - 'Dockerfile'
+      - '.github/workflows/**'
 
 jobs:
   build:
