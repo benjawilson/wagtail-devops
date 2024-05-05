@@ -32,7 +32,9 @@ jobs:
         docker build -t ${{ secrets.DIGITALOCEAN_REGISTRY_NAME }}/wagops:$(echo $GITHUB_SHA | head -c7) .
 
     - name: Log in to DigitalOcean Container Registry with short-lived credentials
-      run: doctl registry login --expiry-seconds 1200
+      run: |
+        doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        doctl registry login --expiry-seconds 1200
 
     - name: Push image to DigitalOcean Container Registry
       run: docker push ${{ secrets.DIGITALOCEAN_REGISTRY_NAME }}/wagops:$(echo $GITHUB_SHA | head -c7)
