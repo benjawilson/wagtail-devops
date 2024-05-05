@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'config/**'
-      - 'server.py'
-      - 'Dockerfile'
-      - '.github/workflows/**'
 
 jobs:
   build:
