@@ -10,8 +10,8 @@ jobs:
     - name: Checkout master
       uses: actions/checkout@main
 
-    - name: Pylint scan
+    - name: Ruff scan
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
-        pylint **/*.py
+        pip install ruff 
+        ruff check
