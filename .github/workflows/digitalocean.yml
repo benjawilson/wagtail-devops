@@ -20,10 +20,17 @@ jobs:
       with:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
     
+    # Add secrets to Dockefile
+    - name: Inject Dockerfile secrets
+      run: |
+        cd wagops 
+        sed -i 's/admin_superuser/${{ secrets.ADMIN_SUPERUSER}}/' Dockerfile
+        sed -i 's/admin_email/${{ secrets.ADMIN_EMAIL}}/' Dockerfile
+        sed -i 's/admin_password/${{ secrets.ADMIN_PASSWORD}}/' Dockerfile
+
     # Build a Docker image of your application in your registry and tag the image with the $GITHUB_SHA.
     - name: Build container image
       run: |
-        cd wagops
         docker build -t registry.digitalocean.com/${{ secrets.DIGITALOCEAN_REGISTRY_NAME }}/wagops:$(echo $GITHUB_SHA | head -c7) .
 
     - name: Log in to DigitalOcean Container Registry with short-lived credentials

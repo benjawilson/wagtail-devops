@@ -48,6 +48,14 @@ USER wagtail
 # Collect static files.
 RUN python manage.py collectstatic --noinput --clear
 
+RUN set -xe; python manage.py migrate --noinput
+#Set environment variables for non-interactive superuser creation
+ENV DJANGO_SUPERUSER=admin_superuser
+ENV DJANGO_SUPERUSER_EMAIL=admin_email
+ENV DJANGO_SUPERUSER_PASSWORD=admin_password
+#Create admin superuser
+RUN python manage.py createsuperuser --noinput --username admin --email admin@admin.co
+
 # Runtime command that executes when "docker run" is called, it does the
 # following:
 #   1. Migrate the database.
@@ -57,11 +65,5 @@ RUN python manage.py collectstatic --noinput --clear
 #   PRACTICE. The database should be migrated manually or using the release
 #   phase facilities of your hosting platform. This is used only so the
 #   Wagtail instance can be started with a simple "docker run" command.
-RUN set -xe; python manage.py migrate --noinput; gunicorn wagops.wsgi:application
+CMD gunicorn wagops.wsgi:application
 
-#Set environment variables for non-interactive superuser creation
-ENV DJANGO_SUPERUSER=django_superuser
-ENV DJANGO_SUPERUSER_EMAIL=django_superuser_email
-ENV DJANGO_SUPERUSER_PASSWORD=django_superuser_password
-#Create admin superuser
-CMD python manage.py createsuperuser --noinput
